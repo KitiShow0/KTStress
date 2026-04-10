@@ -9,17 +9,31 @@ import json
 import threading
 import time
 import signal
+import importlib
 from pathlib import Path
 from flask import Flask, render_template_string, request, jsonify
 from multiprocessing import Process
 
 # Import the original modules
-from start import Methods, ToolsConsole, handleProxyList, REQUESTS_SENT, BYTES_SEND
-from start import HttpFlood, Layer4, ProxyManager, ProxyChecker, ProxyUtiles
-from start import logger, bcolors, URL, gethostbyname, Path as StartPath
+import start
+from start import Methods, ToolsConsole, handleProxyList
+from start import HttpFlood, Layer4, ProxyManager
+from start import logger, bcolors
 from start import Event, sleep, socket, AF_INET, SOCK_DGRAM
+from start import URL as StartURL
+from pathlib import Path as StartPath
+from socket import gethostbyname as StartGetHostByName
 from concurrent.futures import ThreadPoolExecutor
 from typing import Set, List, Any
+
+# Get the counter objects
+REQUESTS_SENT = start.REQUESTS_SENT
+BYTES_SEND = start.BYTES_SEND
+Counter = start.Counter
+
+# Aliases for functions used in attack code
+URL = StartURL
+gethostbyname = StartGetHostByName
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'ktstress-secret-key-2024'
